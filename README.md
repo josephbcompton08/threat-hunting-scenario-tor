@@ -1,5 +1,3 @@
-# Official [Cyber Range](http://joshmadakor.tech/cyber-range) Project
-
 <img width="400" src="https://github.com/user-attachments/assets/44bac428-01bb-4fe9-9d85-96cba7698bee" alt="Tor Logo with the onion and a crosshair on it"/>
 
 # Threat Hunt Report: Unauthorized TOR Usage
@@ -100,63 +98,72 @@ DeviceNetworkEvents
 
 ---
 
-## Chronological Event Timeline 
-
-### 1. File Download - TOR Installer
-
-- **Timestamp:** `2024-11-08T22:14:48.6065231Z`
-- **Event:** The user "employee" downloaded a file named `tor-browser-windows-x86_64-portable-14.0.1.exe` to the Downloads folder.
-- **Action:** File download detected.
-- **File Path:** `C:\Users\employee\Downloads\tor-browser-windows-x86_64-portable-14.0.1.exe`
-
-### 2. Process Execution - TOR Browser Installation
-
-- **Timestamp:** `2024-11-08T22:16:47.4484567Z`
-- **Event:** The user "employee" executed the file `tor-browser-windows-x86_64-portable-14.0.1.exe` in silent mode, initiating a background installation of the TOR Browser.
-- **Action:** Process creation detected.
-- **Command:** `tor-browser-windows-x86_64-portable-14.0.1.exe /S`
-- **File Path:** `C:\Users\employee\Downloads\tor-browser-windows-x86_64-portable-14.0.1.exe`
-
-### 3. Process Execution - TOR Browser Launch
-
-- **Timestamp:** `2024-11-08T22:17:21.6357935Z`
-- **Event:** User "employee" opened the TOR browser. Subsequent processes associated with TOR browser, such as `firefox.exe` and `tor.exe`, were also created, indicating that the browser launched successfully.
-- **Action:** Process creation of TOR browser-related executables detected.
-- **File Path:** `C:\Users\employee\Desktop\Tor Browser\Browser\TorBrowser\Tor\tor.exe`
-
-### 4. Network Connection - TOR Network
-
-- **Timestamp:** `2024-11-08T22:18:01.1246358Z`
-- **Event:** A network connection to IP `176.198.159.33` on port `9001` by user "employee" was established using `tor.exe`, confirming TOR browser network activity.
-- **Action:** Connection success.
-- **Process:** `tor.exe`
-- **File Path:** `c:\users\employee\desktop\tor browser\browser\torbrowser\tor\tor.exe`
-
-### 5. Additional Network Connections - TOR Browser Activity
-
-- **Timestamps:**
-  - `2024-11-08T22:18:08Z` - Connected to `194.164.169.85` on port `443`.
-  - `2024-11-08T22:18:16Z` - Local connection to `127.0.0.1` on port `9150`.
-- **Event:** Additional TOR network connections were established, indicating ongoing activity by user "employee" through the TOR browser.
-- **Action:** Multiple successful connections detected.
-
-### 6. File Creation - TOR Shopping List
-
-- **Timestamp:** `2024-11-08T22:27:19.7259964Z`
-- **Event:** The user "employee" created a file named `tor-shopping-list.txt` on the desktop, potentially indicating a list or notes related to their TOR browser activities.
-- **Action:** File creation detected.
-- **File Path:** `C:\Users\employee\Desktop\tor-shopping-list.txt`
+## Chronological Event Timeline  
+### Tor Browser Usage Investigation - Detailed Timeline Report  
 
 ---
 
-## Summary
-
-The user "employee" on the "threat-hunt-lab" device initiated and completed the installation of the TOR browser. They proceeded to launch the browser, establish connections within the TOR network, and created various files related to TOR on their desktop, including a file named `tor-shopping-list.txt`. This sequence of activities indicates that the user actively installed, configured, and used the TOR browser, likely for anonymous browsing purposes, with possible documentation in the form of the "shopping list" file.
+### **Investigation Subject**  
+- **User Account:** `josephcompton`  
+- **Device:** `threat-hunt-lab`  
+- **Investigation Period:** October 14, 2025, 1:56 AM – 2:50 AM EST  
 
 ---
 
-## Response Taken
+## **Chronological Timeline of Events**
 
-TOR usage was confirmed on the endpoint `threat-hunt-lab` by the user `employee`. The device was isolated, and the user's direct manager was notified.
+### **Phase 1: Installation (1:56 AM – 1:59 AM)**  
+- **1:56:47 AM** – The Tor Browser installer file `tor-browser-windows-x86_64-portable-14.5.8.exe` was renamed in the Downloads folder, indicating the download completed.  
+- **1:58:39 AM** – User `josephcompton` executed the Tor Browser installer using silent installation mode (`/S` flag), allowing installation to proceed without user prompts or visible windows.  
+- **1:59:12 AM – 1:59:13 AM** – Installation began extracting core Tor components:  
+  - License documentation files created (`Torbutton.txt`, `Tor-Launcher.txt`, `tor.txt`)  
+  - Main Tor executable `tor.exe` deployed to Desktop location  
+- **1:59:26 AM** – Desktop shortcut **"Tor Browser.lnk"** created, completing the installation phase.  
+
+---
+
+### **Phase 2: Initial Browser Launch (1:59 AM – 2:03 AM)**  
+- **1:59:27 AM** – Tor Browser (`firefox.exe`) launched for the first time by `josephcompton`.  
+- **1:59:40 AM** – Browser profile initialization began with creation of `storage.sqlite` database file.  
+- **1:59:50 AM** – **Critical moment:** Firefox established connection to `localhost:9151` (Tor Browser’s control port), confirming Tor network connectivity was established and the browser was ready for anonymous browsing.  
+- **1:59:50 AM** – Additional browser storage file `storage-sync-v2.sqlite` created as part of profile setup.  
+- **2:03:11 AM** – Form history database `formhistory.sqlite` created, indicating potential form interactions or browsing activity began.  
+
+---
+
+### **Phase 3: Suspicious Activity Period (2:29 AM – 2:50 AM)**  
+- **2:29:26 AM – 2:29:27 AM** – Three Edge browser validator JavaScript files were modified in a temporary Chrome unpacker directory:  
+  - `edge_checkout_page_validator.js`  
+  - `edge_confirmation_page_validator.js`  
+  - `edge_tracking_page_validator.js`  
+  **Note:** These appear to be browser extension or shopping-related components being processed, possibly indicating the user was accessing e-commerce sites.  
+- **2:48:24 AM** – File of interest created: `tor-shopping-list.txt` initially appeared in the Documents folder with a corresponding Windows Recent Files shortcut (`.lnk`) created, indicating the file was opened or accessed.  
+- **2:48:38 AM** – The same `tor-shopping-list.txt` file was created on the Desktop (**SHA256 hash matches** the Documents version), confirming it’s the same content moved or copied to a more visible location.  
+- **2:50:28 AM** – Web storage database `webappsstore.sqlite` created, indicating continued browser activity and potential web application usage through Tor.  
+
+---
+
+## **Summary**  
+
+Between **1:56 AM and 2:50 AM** on **October 14, 2025**, user `josephcompton` conducted a complete Tor Browser installation and usage session on the `threat-hunt-lab` device. The session began with a **silent installation** of Tor Browser version **14.5.8**, executed without visible prompts at an **unusual hour** (late night/early morning).  
+
+Within one minute of installation, the user launched Tor Browser and successfully established connection to the Tor network via the local control port (`localhost:9151`). The browser remained active for approximately **50 minutes**, during which the user engaged in browsing activity that involved form interactions and web storage usage.  
+
+The most notable finding is the creation of a file named `tor-shopping-list.txt` at **2:48 AM**, approximately 50 minutes after first launch. This file was deliberately saved to both the **Documents** folder and **Desktop**, suggesting intentional user action. The presence of modified e-commerce validator JavaScript files around the same timeframe, combined with the “shopping list” filename, strongly suggests that the user was accessing online shopping or e-commerce platforms through the anonymized Tor network.  
+
+---
+
+### **Key Security Concerns**  
+- Silent installation method used (commonly associated with automated or covert deployments)  
+- Activity occurred during unusual hours (**1:58 AM – 2:50 AM**)  
+- Evidence of shopping-related behavior through the Tor network  
+- Combination of anonymous browsing tools and e-commerce activity warrants further investigation into the legitimacy of these transactions  
+
+---
+
+## **Response Taken**  
+TOR usage was confirmed on endpoint **`threat-hunt-lab`** by the user **`josephcompton`**.  
+The device was **isolated**, and the user’s **direct manager was notified**.  
+
 
 ---
