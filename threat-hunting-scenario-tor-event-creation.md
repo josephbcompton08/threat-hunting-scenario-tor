@@ -75,9 +75,9 @@ DeviceFileEvents
 ---
 
 ## Created By:
-- **Author Name**: Josh Madakor
+- **Author Name**: Joseph Compton
 - **Author Contact**: https://www.linkedin.com/in/joseph-compton-26064766/
-- **Date**: August 31, 2024
+- **Date**: October 10, 2025
 
 ## Validated By:
 - **Reviewer Name**: 
