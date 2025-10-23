@@ -47,18 +47,19 @@ DeviceFileEvents
 
 ### 2. Searched the `DeviceProcessEvents` Table
 
-Searched for any `ProcessCommandLine` that contained the string "tor-browser-windows-x86_64-portable-14.0.1.exe". Based on the logs returned, at `2024-11-08T22:16:47.4484567Z`, an employee on the "threat-hunt-lab" device ran the file `tor-browser-windows-x86_64-portable-14.0.1.exe` from their Downloads folder, using a command that triggered a silent installation.
+Searched the `DeviceProcessEvents` table for any `ProcessCommandLine` that contained the string `"tor-browser-windows-x86_64-portable-14.5.8.exe"`. Based on the logs returned, at `2025-10-14T01:58:00Z`, the user account `josephcompton` executed a Tor Browser installer from the `Downloads` folder on the device `threat-hunt-lab`. The installer was run in silent mode, meaning it executed automatically in the background without displaying any windows or prompts. This activity is notable due to the combination of a late-night execution time, the use of a silent installation method, and the installation of Tor Browser—a privacy-focused application that can sometimes be associated with attempts to conceal network activity.
 
 **Query used to locate event:**
 
 ```kql
 
-DeviceProcessEvents  
-| where DeviceName == "threat-hunt-lab"  
-| where ProcessCommandLine contains "tor-browser-windows-x86_64-portable-14.0.1.exe"  
-| project Timestamp, DeviceName, AccountName, ActionType, FileName, FolderPath, SHA256, ProcessCommandLine
+DeviceProcessEvents
+| where DeviceName == "threat-hunt-lab"
+| where ProcessCommandLine contains "tor-browser-windows-x86_64-portable-14.5.8.exe"
+| project Timestamp, DeviceId, DeviceName, ActionType, FileName, FolderPath, SHA256, ProcessCommandLine, AccountName
 ```
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/b07ac4b4-9cb3-4834-8fac-9f5f29709d78">
+<img width="1497" height="266" alt="image" src="https://github.com/user-attachments/assets/936a9904-498c-4309-89c2-75d80bdd6863" />
+
 
 ---
 
