@@ -65,18 +65,19 @@ DeviceProcessEvents
 
 ### 3. Searched the `DeviceProcessEvents` Table for TOR Browser Execution
 
-Searched for any indication that user "employee" actually opened the TOR browser. There was evidence that they did open it at `2024-11-08T22:17:21.6357935Z`. There were several other instances of `firefox.exe` (TOR) as well as `tor.exe` spawned afterwards.
+Searched the `DeviceProcessEvents` table for any indication that the user `josephcompton` opened the Tor Browser. Based on the logs returned, at `2025-10-14T05:59:27.1748704Z`, the user launched the Tor Browser. Multiple related processes were observed following this event, including instances of `firefox.exe` (Tor) and `tor.exe`, confirming active Tor usage on the device.
 
 **Query used to locate events:**
 
 ```kql
-DeviceProcessEvents  
-| where DeviceName == "threat-hunt-lab"  
-| where FileName has_any ("tor.exe", "firefox.exe", "tor-browser.exe")  
-| project Timestamp, DeviceName, AccountName, ActionType, FileName, FolderPath, SHA256, ProcessCommandLine  
+DeviceProcessEvents
+| where DeviceName == "threat-hunt-lab"
+| where FileName has_any ("tor-browser-windows-x86_64-portable-*.exe", "firefox.exe", "tor.exe", "tor-browser.exe", "Browser\firefox.exe", "Tor Browser\firefox.exe")
+| project Timestamp, DeviceId, DeviceName, ActionType, FileName, FolderPath, SHA256, ProcessCommandLine, AccountName
 | order by Timestamp desc
+
 ```
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/b13707ae-8c2d-4081-a381-2b521d3a0d8f">
+<img width="1547" height="492" alt="image" src="https://github.com/user-attachments/assets/331776e6-3bc5-4a57-b512-ca8f8052f32d" />
 
 ---
 
